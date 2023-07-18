@@ -21,7 +21,7 @@ docker compose up --build
 
 - [X] Able to host TradingView widget
 - [X] Able to take screenshot
-- [ ] Discord webhook
+- [X] Discord webhook
 - [ ] Periodically trigger
 - [X] Docker
 - [ ] Able to pass HTTP GET parameter to create chart

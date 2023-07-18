@@ -1,13 +1,14 @@
 from flask import Flask, render_template, request, Response
 from playwright.async_api import async_playwright
-
-# from dotenv import load_dotenv
+from discord_webhook import DiscordWebhook
+import yaml
 import os
 import time
 
-# load_dotenv()
-
 app = Flask("Finance Notifier")
+
+with open("config.yml", "r") as fp:
+    config = yaml.safe_load(fp)
 
 
 @app.route("/", methods=["GET"])
@@ -50,8 +51,7 @@ def tradingview_technical_analysis():
 # ==== Capture ====
 
 
-@app.route("/screenshot/<chart>", methods=["GET"])
-async def screenshot(chart: str):
+async def get_screenshot(chart: str, **kwargs):
     """
     Basically this is what Chart-Img does
     """
@@ -60,24 +60,39 @@ async def screenshot(chart: str):
         page = await browser.new_page()
         url = f'http://localhost:{os.getenv("PORT") if os.getenv("PORT") else 5000}/widget/{chart}'
         if request.args:
-            url += "?" + "&".join(
-                f"{key}={value}" for key, value in request.args.items()
-            )
+            url += "?" + "&".join(f"{key}={value}" for key, value in kwargs.items())
         await page.goto(url, wait_until="networkidle")
         # To make sure the content loaded
-        time.sleep(1)
+        time.sleep(5)
         image = await page.screenshot(clip=widget_clip.get(chart))
         await browser.close()
 
+    return image
+
+
+@app.route("/screenshot/<chart>", methods=["GET"])
+async def screenshot(chart: str):
+    image = await get_screenshot(chart, **request.args)
     return Response(image, headers={"Content-Type": "image/jpeg"})
 
 
 # ==== Webhook ====
 
 
-@app.route("/discord_webhook", methods=["POST"])
-def discord_webhook() -> dict:
-    pass
+@app.route("/discord_webhook", methods=["GET"])
+async def discord_webhook():
+    # TODO: don't load setting here, should pass parameter here
+    for setting in config["discord"]:
+        print(setting)
+        webhook = DiscordWebhook(url=setting["webhook"])
+        for chart in setting["widgets"]:
+            for symbol in setting["symbols"]:
+                image = await get_screenshot(chart, symbol=symbol)
+                webhook.add_file(file=image, filename=f"{chart}_{symbol}.png")
+        webhook.execute()
+    # Must return something...
+    # TypeError: The view function for 'discord_webhook' did not return a valid response. The function either returned None or ended without a return statement.
+    return "Success"
 
 
 # Run the Flask app

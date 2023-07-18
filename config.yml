@@ -1,0 +1,7 @@
+discord:
+  - webhook: https://discord.com/api/webhooks/<your_id>/<your_token>
+    widgets:
+      - tradingview_advanced_chart
+      - tradingview_technical_analysis
+    symbols:
+      - NASDAQ:MSFT
