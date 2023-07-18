@@ -2,10 +2,13 @@
 
 Periodically send webhook with stock or other finance feed summary.
 
+This can do what Chart-Img can do, and it's free.
+
 ## Getting Started
 
 ```sh
 pip install -r requirements.txt
+playwright install
 
 python app.py
 ```
@@ -24,7 +27,7 @@ python app.py
 
 ## Trouble Shooting
 
-### pyppeteer
+### pyppeteer (deprecated)
 
 ```txt
 OSError: [WinError 14001] The application has failed to start because its side-by-side configuration is incorrect. Please see the application event log or use the command-line sxstrace.exe tool for more detail
