@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request, Response
 from playwright.async_api import async_playwright
-from dotenv import load_dotenv
+
+# from dotenv import load_dotenv
 import os
 import time
 
-load_dotenv()
+# load_dotenv()
 
 app = Flask("Finance Notifier")
 
@@ -80,5 +81,5 @@ def discord_webhook() -> dict:
 
 
 # Run the Flask app
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=os.getenv("PORT"))
+# if __name__ == "__main__":
+app.run(host="0.0.0.0", port=os.getenv("PORT"))

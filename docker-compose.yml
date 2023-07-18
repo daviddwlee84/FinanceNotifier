@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  widget_manager:
+    build:
+      context: .
+      args:
+        PORT: 5080
+    # BUG: Seems this is not working
+    # https://stackoverflow.com/questions/40905761/how-do-i-mount-a-host-directory-as-a-volume-in-docker-compose
+    volumes:
+      - ./:/app
+    ports:
+      - 5080:5080
+    restart: on-failure
