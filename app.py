@@ -4,6 +4,7 @@ from discord_webhook import DiscordWebhook
 import yaml
 import os
 import time
+import asyncio
 
 app = Flask("Finance Notifier")
 
@@ -85,10 +86,16 @@ async def discord_webhook():
     for setting in config["discord"]:
         print(setting)
         webhook = DiscordWebhook(url=setting["webhook"])
-        for chart in setting["widgets"]:
-            for symbol in setting["symbols"]:
-                image = await get_screenshot(chart, symbol=symbol)
-                webhook.add_file(file=image, filename=f"{chart}_{symbol}.png")
+        images = await asyncio.gather(
+            *[
+                get_screenshot(chart, symbol=symbol)
+                for chart in setting["widgets"]
+                for symbol in setting["symbols"]
+            ]
+        )
+        for i, image in enumerate(images):
+            # webhook.add_file(file=image, filename=f"{chart}_{symbol}.png")
+            webhook.add_file(file=image, filename=f"{i}.png")
         webhook.execute()
     # Must return something...
     # TypeError: The view function for 'discord_webhook' did not return a valid response. The function either returned None or ended without a return statement.
