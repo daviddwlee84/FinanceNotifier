@@ -13,6 +13,15 @@ playwright install
 python app.py
 ```
 
+## Todo
+
+- [X] Able to host TradingView widget
+- [X] Able to take screenshot
+- [ ] Discord webhook
+- [ ] Able to pass HTTP GET parameter to create chart
+- [ ] Try add indicators, strategies, studies on the TradingView Advanced Chart
+- [ ] What if "click" the save image button on the TradingView Advanced Chart?
+
 ## Resources
 
 - Discord Webhook

@@ -11,8 +11,7 @@ app = Flask("Finance Notifier")
 
 @app.route("/")
 def home():
-    # TODO: This should be a management website
-    return redirect("/widget/tradingview_advanced_chart")
+    return render_template("index.html")
 
 
 # ==== Widgets ====
