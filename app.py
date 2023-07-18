@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, Response
+from flask import Flask, render_template, request, Response
 from playwright.async_api import async_playwright
 from dotenv import load_dotenv
 import os
@@ -9,7 +9,7 @@ load_dotenv()
 app = Flask("Finance Notifier")
 
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def home():
     return render_template("index.html")
 
@@ -28,20 +28,28 @@ widget_clip = {
 }
 
 
-@app.route("/widget/tradingview_advanced_chart")
+@app.route("/widget/tradingview_advanced_chart", methods=["GET"])
 def tradingview_advanced_chart():
-    return render_template("tradingview_advanced_chart.html")
+    symbol = request.args.get("symbol", "MSFT")
+    interval = request.args.get("interval", "30")
+    return render_template(
+        "tradingview_advanced_chart.html", symbol=symbol, interval=interval
+    )
 
 
-@app.route("/widget/tradingview_technical_analysis")
+@app.route("/widget/tradingview_technical_analysis", methods=["GET"])
 def tradingview_technical_analysis():
-    return render_template("tradingview_technical_analysis.html")
+    symbol = request.args.get("symbol", "NASDAQ:MSFT")
+    interval = request.args.get("interval", "1D")
+    return render_template(
+        "tradingview_technical_analysis.html", symbol=symbol, interval=interval
+    )
 
 
 # ==== Capture ====
 
 
-@app.route("/screenshot/<chart>")
+@app.route("/screenshot/<chart>", methods=["GET"])
 async def screenshot(chart: str):
     """
     Basically this is what Chart-Img does
@@ -49,11 +57,12 @@ async def screenshot(chart: str):
     async with async_playwright() as p:
         browser = await p.chromium.launch()
         page = await browser.new_page()
-        # TODO: pass parameters
-        await page.goto(
-            f'http://localhost:{os.getenv("PORT") if os.getenv("PORT") else 5000}/widget/{chart}',
-            wait_until="networkidle",
-        )
+        url = f'http://localhost:{os.getenv("PORT") if os.getenv("PORT") else 5000}/widget/{chart}'
+        if request.args:
+            url += "?" + "&".join(
+                f"{key}={value}" for key, value in request.args.items()
+            )
+        await page.goto(url, wait_until="networkidle")
         # To make sure the content loaded
         time.sleep(1)
         image = await page.screenshot(clip=widget_clip.get(chart))
