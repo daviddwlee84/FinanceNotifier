@@ -21,6 +21,10 @@ python app.py
   - [microsoft/playwright-python: Python version of the Playwright testing and automation library.](https://github.com/microsoft/playwright-python)
   - [pyppeteer/pyppeteer: Headless chrome/chromium automation library (unofficial port of puppeteer)](https://github.com/pyppeteer/pyppeteer)
   - [CHART-IMG | Capture Chart Image By API](https://chart-img.com/)
+  - [Free Stock Widgets — Financial Web Components — TradingView](https://www.tradingview.com/widget/)
+    - [Free Financial Chart Widget for Technical Analysis — TradingView](https://www.tradingview.com/widget/advanced-chart/)
+    - [Technical Analysis Widget — Free and Powerful Tool — TradingView](https://www.tradingview.com/widget/technical-analysis/)
+    - [Brokerage Integration to a Powerful Financial Platform — TradingView](https://www.tradingview.com/brokerage-integration/)
 - Period Run
   - [sched — Event scheduler — Python 3.11.4 documentation](https://docs.python.org/3/library/sched.html)
   - [threading — Thread-based parallelism — Python 3.11.4 documentation](https://docs.python.org/3/library/threading.html#timer-objects)
