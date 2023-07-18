@@ -9,9 +9,54 @@
     <body>
         <h1>Finance Notifier</h1>
         <p>David's Finance Notifier support quick access finance chart and easy get their screenshot.</p>
+
+        <p>(default value)</p>
+
         <ul>
             <li>TradingView Advanced Chart <a href="/widget/tradingview_advanced_chart" target="_blank">Widget</a> <a href="/screenshot/tradingview_advanced_chart" target="_blank">Screenshot</a></li>
             <li>TradingView Technical Analysis <a href="/widget/tradingview_technical_analysis" target="_blank">Widget</a> <a href="/screenshot/tradingview_technical_analysis" target="_blank">Screenshot</a></li>
         </ul>
+
+
+        <p>Test widget with GET arguments</p>
+
+        <form id="Widget">
+            <label>Chart Type:</label>
+            <select name="widget" id="widget">
+                <option value="tradingview_advanced_chart">TradingView Advanced Chart</option>
+                <option value="tradingview_technical_analysis">TradingView Technical Analysis</option>
+            </select>
+            <label>Symbol:</label>
+            <input type="text" id="symbol" placeholder="Symbol" value="NASDAQ:MSFT">
+            <label>Interval:</label>
+            <input type="text" id="interval" placeholder="Interval" value="30">
+            <label>API:</label>
+            <select name="API" id="API">
+                <option value="widget">Widget</option>
+                <option value="screenshot">Screenshot</option>
+            </select>
+            <button type="button" onclick="constructURL()">Go</button>
+        </form>
+
+        <script>
+            function constructURL() {
+                // Get the input text value
+                const symbol = document.getElementById('symbol').value;
+                const interval = document.getElementById('interval').value;
+                const api = document.getElementById('API').value;
+                const widget = document.getElementById('widget').value;
+                // Base URL for the GET request
+                const baseURL = `/${api}/${widget}`;
+
+                // Combine the input text value and parameters to construct the URL
+                const constructedURL = `${baseURL}?symbol=${encodeURIComponent(symbol)}&interval=${encodeURIComponent(interval)}`;
+
+                // Redirect the user to the constructed URL
+                // window.location.href = constructedURL;
+
+                window.open(constructedURL, '_blank');
+            }
+        </script>
+
     </body>
 </html>
