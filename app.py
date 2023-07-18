@@ -83,20 +83,20 @@ async def screenshot(chart: str):
 @app.route("/discord_webhook", methods=["GET"])
 async def discord_webhook():
     # TODO: don't load setting here, should pass parameter here
+    # but widget and symbol config is complex, we need a mapping
     for setting in config["discord"]:
         print(setting)
-        webhook = DiscordWebhook(url=setting["webhook"])
-        images = await asyncio.gather(
-            *[
-                get_screenshot(chart, symbol=symbol)
-                for chart in setting["widgets"]
-                for symbol in setting["symbols"]
-            ]
-        )
-        for i, image in enumerate(images):
-            # webhook.add_file(file=image, filename=f"{chart}_{symbol}.png")
-            webhook.add_file(file=image, filename=f"{i}.png")
-        webhook.execute()
+        for symbol in setting["symbols"]:
+            webhook = DiscordWebhook(
+                url=setting["webhook"], content=f"📨 Quick Summary of **{symbol}**"
+            )
+            images = await asyncio.gather(
+                *[get_screenshot(chart, symbol=symbol) for chart in setting["widgets"]]
+            )
+            for i, image in enumerate(images):
+                # webhook.add_file(file=image, filename=f"{chart}_{symbol}.png")
+                webhook.add_file(file=image, filename=f"{symbol}_{i}.png")
+            webhook.execute()
     # Must return something...
     # TypeError: The view function for 'discord_webhook' did not return a valid response. The function either returned None or ended without a return statement.
     return "Success"
