@@ -19,13 +19,24 @@ def home():
 
 widget_clip = {
     # Modify height to remove "Track all markets on TradingView"
-    "tradingview_advanced_chart": {"x": 0, "y": 0, "width": 980, "height": 610 - 32}
+    "tradingview_advanced_chart": {"x": 0, "y": 0, "width": 980, "height": 610 - 32},
+    "tradingview_technical_analysis": {
+        "x": 2,
+        "y": 2,
+        "width": 425 - 4,
+        "height": 450 - 35.2,
+    },
 }
 
 
 @app.route("/widget/tradingview_advanced_chart")
 def tradingview_advanced_chart():
     return render_template("tradingview_advanced_chart.html")
+
+
+@app.route("/widget/tradingview_technical_analysis")
+def tradingview_technical_analysis():
+    return render_template("tradingview_technical_analysis.html")
 
 
 # ==== Capture ====
