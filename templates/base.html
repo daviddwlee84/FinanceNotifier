@@ -3,11 +3,20 @@
 
 <head>
     <title>{% block title %}{% endblock %}</title>
+    <style>
+        .top-left {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
 </head>
 
 <body>
-    {% block widget %}
-    {% endblock %}
+    <div class="top-left">
+        {% block widget %}
+        {% endblock %}
+    </div>
 </body>
 
 </html>

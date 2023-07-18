@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, Response
 from playwright.async_api import async_playwright
 from dotenv import load_dotenv
 import os
+import time
 
 load_dotenv()
 
@@ -11,10 +12,15 @@ app = Flask("Finance Notifier")
 @app.route("/")
 def home():
     # TODO: This should be a management website
-    return redirect("/tradingview_advanced_chart")
+    return redirect("/widget/tradingview_advanced_chart")
 
 
 # ==== Widgets ====
+
+widget_clip = {
+    # Modify height to remove "Track all markets on TradingView"
+    "tradingview_advanced_chart": {"x": 0, "y": 0, "width": 980, "height": 610 - 32}
+}
 
 
 @app.route("/widget/tradingview_advanced_chart")
@@ -35,10 +41,12 @@ async def screenshot(chart: str):
         page = await browser.new_page()
         # TODO: pass parameters
         await page.goto(
-            f'http://localhost:{os.getenv("PORT") if os.getenv("PORT") else 5000}/widget/{chart}'
+            f'http://localhost:{os.getenv("PORT") if os.getenv("PORT") else 5000}/widget/{chart}',
+            wait_until="networkidle",
         )
-        # TODO: clip the graph
-        image = await page.screenshot()
+        # To make sure the content loaded
+        time.sleep(1)
+        image = await page.screenshot(clip=widget_clip.get(chart))
         await browser.close()
 
     return Response(image, headers={"Content-Type": "image/jpeg"})
