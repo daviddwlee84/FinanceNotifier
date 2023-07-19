@@ -1,3 +1,4 @@
 flask[async]
 pytest-playwright
 discord-webhook
+Flask-APScheduler

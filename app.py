@@ -5,17 +5,52 @@ import yaml
 import os
 import time
 import asyncio
+from flask_apscheduler import APScheduler
+import requests
 
+
+# set configuration values
+class Config:
+    SCHEDULER_API_ENABLED = True
+    SCHEDULER_API_PREFIX = "/scheduler"
+    SCHEDULER_ENDPOINT_PREFIX = ""
+    # BUG (solved): KeyError: 'JSONIFY_PRETTYPRINT_REGULAR'
+    JSONIFY_PRETTYPRINT_REGULAR = True
+
+
+# create app
 app = Flask("Finance Notifier")
+app.config.from_object(Config())
+
 
 with open("config.yml", "r") as fp:
     config = yaml.safe_load(fp)
+
+# ==== Web Page ====
 
 
 @app.route("/", methods=["GET"])
 def home():
     return render_template("index.html")
 
+
+# ==== Schedule ====
+
+# initialize scheduler
+scheduler = APScheduler()
+scheduler.init_app(app)
+
+
+# TODO: this should be run at specific time
+@scheduler.task("cron", id="discord_webhook", day="*")
+def call_discord_webhook():
+    # Not sure if there is more elegant way, but since the discord_webhook is async function
+    url = f'http://localhost:{os.getenv("PORT") if os.getenv("PORT") else 5000}/discord_webhook'
+    response = requests.get(url)
+    print(response, response.text)
+
+
+scheduler.start()
 
 # ==== Widgets ====
 
@@ -103,5 +138,10 @@ async def discord_webhook():
 
 
 # Run the Flask app
-# if __name__ == "__main__":
-app.run(host="0.0.0.0", port=os.getenv("PORT"))
+
+#  * Ignoring a call to 'app.run()' that would block the current 'flask' CLI command.
+#    Only call 'app.run()' in an 'if __name__ == "__main__"' guard.
+if __name__ == "__main__":
+    # BUG: when set host to 0.0.0.0 will let /scheduler API failed (404)
+    app.run(host="0.0.0.0", port=os.getenv("PORT"))
+    # app.run()

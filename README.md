@@ -11,6 +11,8 @@ pip install -r requirements.txt
 playwright install
 
 python app.py
+# or
+flask run
 ```
 
 ```sh
@@ -25,7 +27,8 @@ docker compose up --build
 - [X] Able to pass HTTP GET parameter to create chart
 - [X] Periodically trigger
 - [X] Docker
-- [ ] Load config into `periodic/server.py`'s docker
+- [ ] ~~Load config into `periodic/server.py`'s docker~~
+- [ ] Fix bug of scheduler that can't use API when host is `0.0.0.0`
 - [ ] Try add indicators, strategies, studies on the TradingView Advanced Chart
 - [ ] What if "click" the save image button on the TradingView Advanced Chart?
 
@@ -47,6 +50,8 @@ docker compose up --build
   - [python - How can I run an async function using the schedule library? - Stack Overflow](https://stackoverflow.com/questions/51530012/how-can-i-run-an-async-function-using-the-schedule-library)
   - [sched — Event scheduler — Python 3.11.4 documentation](https://docs.python.org/3/library/sched.html)
   - [threading — Thread-based parallelism — Python 3.11.4 documentation](https://docs.python.org/3/library/threading.html#timer-objects)
+  - [Advanced Python Scheduler — APScheduler 3.9.1.post1 documentation](https://apscheduler.readthedocs.io/en/stable/index.html)
+    - [agronholm/apscheduler: Task scheduling library for Python](https://github.com/agronholm/apscheduler)
   - [Flask APScheduler](https://viniciuschiele.github.io/flask-apscheduler/)
     - [viniciuschiele/flask-apscheduler: Adds APScheduler support to Flask](https://github.com/viniciuschiele/flask-apscheduler)
 
@@ -62,3 +67,32 @@ OSError: [WinError 14001] The application has failed to start because its side-b
   - If anyone is having this issue; what fixed it for me was to uninstall the python version downloaded from the windows store and install python directly from their webpage. After doing so, I was able to launch Chromium using Pyppeteer.
 - [Can't run pyppeteer in local, or on web-based machine such as Replit · Issue #425 · pyppeteer/pyppeteer](https://github.com/pyppeteer/pyppeteer/issues/425)
   - longer updated. Check README.md for more info. You can use Playright instead.
+
+### Scheduler API 404
+
+- [python - Get list of all routes defined in the Flask app - Stack Overflow](https://stackoverflow.com/questions/13317536/get-list-of-all-routes-defined-in-the-flask-app)
+
+```txt
+$ flask routes
+ * Ignoring a call to 'app.run()' that would block the current 'flask' CLI command.
+   Only call 'app.run()' in an 'if __name__ == "__main__"' guard.
+Endpoint                        Methods  Rule
+------------------------------  -------  --------------------------------------
+add_job                         POST     /scheduler/jobs
+delete_job                      DELETE   /scheduler/jobs/<job_id>
+discord_webhook                 GET      /discord_webhook
+get_job                         GET      /scheduler/jobs/<job_id>
+get_jobs                        GET      /scheduler/jobs
+get_scheduler_info              GET      /scheduler
+home                            GET      /
+pause_job                       POST     /scheduler/jobs/<job_id>/pause
+resume_job                      POST     /scheduler/jobs/<job_id>/resume
+run_job                         POST     /scheduler/jobs/<job_id>/run
+screenshot                      GET      /screenshot/<chart>
+static                          GET      /static/<path:filename>
+tradingview_advanced_chart      GET      /widget/tradingview_advanced_chart
+tradingview_technical_analysis  GET      /widget/tradingview_technical_analysis
+update_job                      PATCH    /scheduler/jobs/<job_id>
+```
+
+Seems if host is 0.0.0.0 will have some issue
