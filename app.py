@@ -41,8 +41,8 @@ scheduler = APScheduler()
 scheduler.init_app(app)
 
 
-# TODO: this should be run at specific time
-@scheduler.task("cron", id="discord_webhook", day="*")
+# https://apscheduler.readthedocs.io/en/3.x/modules/triggers/cron.html#module-apscheduler.triggers.cron
+@scheduler.task("cron", id="discord_webhook", day="*", hour="09")
 def call_discord_webhook():
     # Not sure if there is more elegant way, but since the discord_webhook is async function
     url = f'http://localhost:{os.getenv("PORT") if os.getenv("PORT") else 5000}/discord_webhook'

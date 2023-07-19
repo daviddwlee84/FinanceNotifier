@@ -28,7 +28,6 @@ docker compose up --build
 - [X] Periodically trigger
 - [X] Docker
 - [ ] ~~Load config into `periodic/server.py`'s docker~~
-- [ ] Fix bug of scheduler that can't use API when host is `0.0.0.0`
 - [ ] Try add indicators, strategies, studies on the TradingView Advanced Chart
 - [ ] What if "click" the save image button on the TradingView Advanced Chart?
 
@@ -96,3 +95,5 @@ update_job                      PATCH    /scheduler/jobs/<job_id>
 ```
 
 Seems if host is 0.0.0.0 will have some issue
+
+Just because I am running an old one...
