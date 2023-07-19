@@ -2,3 +2,5 @@ flask[async]
 pytest-playwright
 discord-webhook
 Flask-APScheduler
+# https://sebhastian.com/python-no-module-named-yaml/
+pyyaml
