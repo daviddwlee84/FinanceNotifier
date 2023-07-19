@@ -31,6 +31,11 @@ docker compose up --build
 - [ ] Try add indicators, strategies, studies on the TradingView Advanced Chart
 - [ ] What if "click" the save image button on the TradingView Advanced Chart?
 
+## Note
+
+- [gitattributes - How can I make git ignore future revisions to a file? - Stack Overflow](https://stackoverflow.com/questions/4348590/how-can-i-make-git-ignore-future-revisions-to-a-file)
+  - `git update-index --skip-worktree config.yml`
+
 ## Resources
 
 - Discord Webhook

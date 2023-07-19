@@ -95,7 +95,7 @@ async def get_screenshot(chart: str, **kwargs):
         browser = await p.chromium.launch()
         page = await browser.new_page()
         url = f'http://localhost:{os.getenv("PORT") if os.getenv("PORT") else 5000}/widget/{chart}'
-        if request.args:
+        if kwargs:
             url += "?" + "&".join(f"{key}={value}" for key, value in kwargs.items())
         await page.goto(url, wait_until="networkidle")
         # To make sure the content loaded

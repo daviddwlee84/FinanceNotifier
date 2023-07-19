@@ -5,3 +5,4 @@ discord:
       - tradingview_technical_analysis
     symbols:
       - NASDAQ:MSFT
+      - NASDAQ:NVDA
