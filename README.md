@@ -25,6 +25,7 @@ docker compose up --build
 - [X] Able to pass HTTP GET parameter to create chart
 - [X] Periodically trigger
 - [X] Docker
+- [ ] Load config into `periodic/server.py`'s docker
 - [ ] Try add indicators, strategies, studies on the TradingView Advanced Chart
 - [ ] What if "click" the save image button on the TradingView Advanced Chart?
 
@@ -42,9 +43,12 @@ docker compose up --build
     - [Brokerage Integration to a Powerful Financial Platform — TradingView](https://www.tradingview.com/brokerage-integration/)
 - Period Run
   - [schedule — schedule 1.2.0 documentation](https://schedule.readthedocs.io/en/stable/)
+    - [dbader/schedule: Python job scheduling for humans.](https://github.com/dbader/schedule)
   - [python - How can I run an async function using the schedule library? - Stack Overflow](https://stackoverflow.com/questions/51530012/how-can-i-run-an-async-function-using-the-schedule-library)
   - [sched — Event scheduler — Python 3.11.4 documentation](https://docs.python.org/3/library/sched.html)
   - [threading — Thread-based parallelism — Python 3.11.4 documentation](https://docs.python.org/3/library/threading.html#timer-objects)
+  - [Flask APScheduler](https://viniciuschiele.github.io/flask-apscheduler/)
+    - [viniciuschiele/flask-apscheduler: Adds APScheduler support to Flask](https://github.com/viniciuschiele/flask-apscheduler)
 
 ## Trouble Shooting
 

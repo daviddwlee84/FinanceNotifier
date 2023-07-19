@@ -12,6 +12,7 @@ def call_discord_webhook():
     print(response, response.text)
 
 
+# TODO: the time should be able to config or added from website..?
 # TODO: set timezone & set tag
 schedule.every().day.at("09:00").do(call_discord_webhook)
 
