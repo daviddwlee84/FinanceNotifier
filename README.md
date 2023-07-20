@@ -102,3 +102,50 @@ update_job                      PATCH    /scheduler/jobs/<job_id>
 Seems if host is 0.0.0.0 will have some issue
 
 Just because I am running an old one...
+
+### playwright dependencies in docker
+
+```txt
+ playwright._impl._api_types.Error:
+ ╔══════════════════════════════════════════════════════╗
+ ║ Host system is missing dependencies to run browsers. ║
+ ║ Missing libraries:                                   ║
+ ║     libgobject-2.0.so.0                              ║
+ ║     libglib-2.0.so.0                                 ║
+ ║     libnss3.so                                       ║
+ ║     libnssutil3.so                                   ║
+ ║     libsmime3.so                                     ║
+ ║     libnspr4.so                                      ║
+ ║     libatk-1.0.so.0                                  ║
+ ║     libatk-bridge-2.0.so.0                           ║
+ ║     libcups.so.2                                     ║
+ ║     libgio-2.0.so.0                                  ║
+ ║     libdrm.so.2                                      ║
+ ║     libdbus-1.so.3                                   ║
+ ║     libxcb.so.1                                      ║
+ ║     libxkbcommon.so.0                                ║
+ ║     libatspi.so.0                                    ║
+ ║     libX11.so.6                                      ║
+ ║     libXcomposite.so.1                               ║
+ ║     libXdamage.so.1                                  ║
+ ║     libXext.so.6                                     ║
+ ║     libXfixes.so.3                                   ║
+ ║     libXrandr.so.2                                   ║
+ ║     libgbm.so.1                                      ║
+ ║     libpango-1.0.so.0                                ║
+ ║     libcairo.so.2                                    ║
+ ║     libasound.so.2                                   ║
+ ╚══════════════════════════════════════════════════════╝
+```
+
+- [Docker | Playwright Python](https://playwright.dev/python/docs/docker)
+
+playwright._impl._api_types.Error: Executable doesn't exist at /ms-playwright/chromium-1071/chrome-linux/chrome
+╔═══════════════════════════════════════════════════════════════╗
+║ Looks like Playwright was just updated to 1.36.0.             ║
+║ Please update docker image as well.                           ║
+║ -  current: mcr.microsoft.com/playwright/python:v1.35.0-jammy ║
+║ - required: mcr.microsoft.com/playwright/python:v1.36.0-jammy ║
+║                                                               ║
+║ <3 Playwright Team                                            ║
+╚═══════════════════════════════════════════════════════════════╝

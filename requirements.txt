@@ -1,4 +1,5 @@
 flask[async]
+# This must match the container version in the Dockerfile
 pytest-playwright
 discord-webhook
 Flask-APScheduler
