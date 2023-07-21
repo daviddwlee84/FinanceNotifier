@@ -16,6 +16,16 @@ ENV FLASK_APP "app.py"
 ENV FLASK_DEBUG "1"
 ENV PORT ${PORT}
 
+# https://github.com/regebro/tzlocal#notes-on-docker
+ENV TZ "Asia/Taipei"
+ARG DEBIAN_FRONTEND="noninteractive"
+
+# https://dev.to/0xbf/set-timezone-in-your-docker-image-d22
+RUN apt-get update && \
+    apt-get install -y tzdata && \
+    ln -fs /usr/share/zoneinfo/Asia/Taipei /etc/localtime && \
+    dpkg-reconfigure -f noninteractive tzdata
+
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
 # RUN playwright install

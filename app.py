@@ -6,6 +6,7 @@ import os
 import time
 import asyncio
 from flask_apscheduler import APScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
 import requests
 
 
@@ -37,7 +38,7 @@ def home():
 # ==== Schedule ====
 
 # initialize scheduler
-scheduler = APScheduler()
+scheduler = APScheduler(scheduler=BackgroundScheduler(timezone='Asia/Taipei'))
 scheduler.init_app(app)
 
 

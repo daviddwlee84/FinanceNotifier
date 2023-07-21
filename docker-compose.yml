@@ -10,6 +10,8 @@ services:
     # https://stackoverflow.com/questions/40905761/how-do-i-mount-a-host-directory-as-a-volume-in-docker-compose
     volumes:
       - ./:/app
+    environment:
+      TZ: Asia/Taipei
     ports:
       - 5080:5080
     restart: on-failure
