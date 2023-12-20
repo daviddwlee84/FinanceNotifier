@@ -6,3 +6,7 @@ discord:
     symbols:
       - NASDAQ:MSFT
       - NASDAQ:NVDA
+      - SSE_DLY:000001
+      - BINANCE:BTCUSD
+      - NASDAQ:NDX
+      - AMEX:KWEB

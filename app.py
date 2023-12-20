@@ -38,11 +38,14 @@ def home():
 # ==== Schedule ====
 
 # initialize scheduler
-scheduler = APScheduler(scheduler=BackgroundScheduler(timezone='Asia/Taipei'))
+scheduler = APScheduler(
+    scheduler=BackgroundScheduler(timezone=os.getenv("TZ", "Asia/Taipei"))
+)
 scheduler.init_app(app)
 
 
 # https://apscheduler.readthedocs.io/en/3.x/modules/triggers/cron.html#module-apscheduler.triggers.cron
+# TODO: make this configurable
 @scheduler.task("cron", id="discord_webhook", day="*", hour="09")
 def call_discord_webhook():
     # Not sure if there is more elegant way, but since the discord_webhook is async function
@@ -57,6 +60,7 @@ scheduler.start()
 
 widget_clip = {
     # Modify height to remove "Track all markets on TradingView"
+    # TODO: remove the copyright in the templates
     "tradingview_advanced_chart": {"x": 0, "y": 0, "width": 980, "height": 610 - 32},
     "tradingview_technical_analysis": {
         "x": 2,

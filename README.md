@@ -6,6 +6,8 @@ This can do what Chart-Img can do, and it's free.
 
 ## Getting Started
 
+Config your setting in `config.yml`
+
 ```sh
 pip install -r requirements.txt
 playwright install
@@ -27,9 +29,14 @@ docker compose up --build
 - [X] Able to pass HTTP GET parameter to create chart
 - [X] Periodically trigger
 - [X] Docker
+  - [Install Docker Engine on Ubuntu | Docker Documentation](https://docs.docker.com/engine/install/ubuntu/#install-using-the-convenience-script)
+  - [Run the Docker daemon as a non-root user (Rootless mode) | Docker Documentation](https://docs.docker.com/engine/security/rootless/)
 - [ ] ~~Load config into `periodic/server.py`'s docker~~
 - [ ] Try add indicators, strategies, studies on the TradingView Advanced Chart
 - [ ] What if "click" the save image button on the TradingView Advanced Chart?
+- [ ] UI for changing `config.yml`
+- [ ] TradingView Screener
+- [ ] Deploy to Heroku [Heroku Buttons | Heroku](https://www.heroku.com/elements/buttons), [Creating a 'Deploy to Heroku' Button | Heroku Dev Center](https://devcenter.heroku.com/articles/heroku-button)
 
 ## Note
 
@@ -42,6 +49,7 @@ docker compose up --build
   - [lovvskillz/python-discord-webhook: execute discord webhooks](https://github.com/lovvskillz/python-discord-webhook)
 - Information
   - [microsoft/playwright-python: Python version of the Playwright testing and automation library.](https://github.com/microsoft/playwright-python)
+    - [microsoft/playwright-pytest: Pytest plugin to write end-to-end browser tests with Playwright.](https://github.com/microsoft/playwright-pytest)
   - [pyppeteer/pyppeteer: Headless chrome/chromium automation library (unofficial port of puppeteer)](https://github.com/pyppeteer/pyppeteer)
   - [CHART-IMG | Capture Chart Image By API](https://chart-img.com/)
   - [Free Stock Widgets — Financial Web Components — TradingView](https://www.tradingview.com/widget/)
@@ -58,6 +66,13 @@ docker compose up --build
     - [agronholm/apscheduler: Task scheduling library for Python](https://github.com/agronholm/apscheduler)
   - [Flask APScheduler](https://viniciuschiele.github.io/flask-apscheduler/)
     - [viniciuschiele/flask-apscheduler: Adds APScheduler support to Flask](https://github.com/viniciuschiele/flask-apscheduler)
+- Data Source
+  - TradingView
+    - Screener API
+      - [AnalyzerREST/python-tradingview-ta: Unofficial TradingView technical analysis API wrapper.](https://github.com/AnalyzerREST/python-tradingview-ta)
+      - [shner-elmo/TradingView-Screener: A package that lets you create TradingView screeners in Python!](https://github.com/shner-elmo/TradingView-Screener)
+    - Simulate user
+      - [Mathieu2301/TradingView-API: 📈 Get real-time stocks from TradingView](https://github.com/Mathieu2301/TradingView-API)
 
 ## Trouble Shooting
 
