@@ -7,3 +7,4 @@ Flask-APScheduler
 # https://sebhastian.com/python-no-module-named-yaml/
 pyyaml
 tradingview-screener
+pandas
