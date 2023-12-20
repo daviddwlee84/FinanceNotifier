@@ -1,0 +1,45 @@
+<html>
+
+<head>
+    <title>Finance Notifier - Configure</title>
+    <meta property="og:title" content="David's Finance Notifier - Configure" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description"
+        content="David's Finance Notifier support quick access finance chart and easy get their screenshot." />
+</head>
+
+<body>
+    <h1>Server Configure</h1>
+    <a href="/">Back to Home</a><br>
+    <button id="saveButton">Save Config</button>
+    <div id="code-editor" style="height: 600px; width: 100%;">{{ yaml_code }}</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.24.0/ace.js"></script>
+    <script>
+        var editor = ace.edit("code-editor");
+        editor.setTheme("ace/theme/monokai");
+        editor.session.setMode("ace/mode/yaml");
+        editor.session.setTabSize(2);
+    </script>
+    <script>
+        document.getElementById("saveButton").addEventListener("click", function () {
+            var content = editor.getValue();
+
+            // Replace this with your actual save logic
+            // For example, you can send the content to a server using an API call
+            // or save it locally using browser storage
+            console.log("Content to save:", content);
+
+            fetch("/configure", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "text/plain"
+                },
+                body: content
+            })
+        });
+    </script>
+
+</body>
+
+</html>

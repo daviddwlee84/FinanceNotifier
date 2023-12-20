@@ -24,8 +24,10 @@ class Config:
 app = Flask("Finance Notifier")
 app.config.from_object(Config())
 
+curr_dir = os.path.dirname(os.path.abspath(__file__))
+CONFIG_FILE = os.path.join(curr_dir, "config.yml")
 
-with open("config.yml", "r") as fp:
+with open(CONFIG_FILE, "r") as fp:
     config = yaml.safe_load(fp)
 
 # ==== Web Page ====
@@ -33,7 +35,33 @@ with open("config.yml", "r") as fp:
 
 @app.route("/", methods=["GET"])
 def home():
-    return render_template("index.html", jobs=scheduler.get_jobs(), tickers=utils.get_all_tradingview_tickers())
+    return render_template(
+        "index.html",
+        jobs=scheduler.get_jobs(),
+        tickers=utils.get_all_tradingview_tickers(),
+    )
+
+
+@app.route("/configure", methods=["GET", "POST"])
+def configure():
+    global config
+    # Save config
+    if request.method == "POST":
+        yaml_code = request.data.decode("utf-8")
+
+        # TODO: Add yaml syntax check
+        with open(CONFIG_FILE, "w") as fp:
+            fp.write(yaml_code)
+
+        with open(CONFIG_FILE, "r") as fp:
+            config = yaml.safe_load(fp)
+
+    # Open config
+    else:
+        with open(CONFIG_FILE, "r") as fp:
+            yaml_code = fp.read()
+
+    return render_template("config.html", yaml_code=yaml_code)
 
 
 # ==== Schedule ====

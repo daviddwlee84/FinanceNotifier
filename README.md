@@ -34,7 +34,8 @@ docker compose up --build
 - [ ] ~~Load config into `periodic/server.py`'s docker~~
 - [ ] Try add indicators, strategies, studies on the TradingView Advanced Chart
 - [ ] What if "click" the save image button on the TradingView Advanced Chart?
-- [ ] UI for changing `config.yml`
+- [X] UI for changing `config.yml`
+- [ ] Make notification time configurable
 - [ ] TradingView Screener
 - [ ] Deploy to Heroku [Heroku Buttons | Heroku](https://www.heroku.com/elements/buttons), [Creating a 'Deploy to Heroku' Button | Heroku Dev Center](https://devcenter.heroku.com/articles/heroku-button)
 
