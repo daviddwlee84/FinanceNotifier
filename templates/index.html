@@ -46,6 +46,13 @@
         </select>
         <label>Symbol:</label>
         <input type="text" id="symbol" placeholder="Symbol" value="NASDAQ:MSFT">
+        <!-- Too many ticker makes it super slow -->
+        <!-- <label>Symbol (TradingView Ticker Id):</label>
+        <select name="symbol" id="symbol">
+            {% for ticker in tickers %}
+            <option value="{{ ticker }}">{{ ticker }}</option>
+            {% endfor %}
+        </select> -->
         <label>Interval:</label>
         <input type="text" id="interval" placeholder="Interval" value="30">
         <label>API:</label>

@@ -8,6 +8,7 @@ import asyncio
 from flask_apscheduler import APScheduler
 from apscheduler.schedulers.background import BackgroundScheduler
 import requests
+import utils
 
 
 # set configuration values
@@ -32,7 +33,7 @@ with open("config.yml", "r") as fp:
 
 @app.route("/", methods=["GET"])
 def home():
-    return render_template("index.html", jobs=scheduler.get_jobs())
+    return render_template("index.html", jobs=scheduler.get_jobs(), tickers=utils.get_all_tradingview_tickers())
 
 
 # ==== Schedule ====
