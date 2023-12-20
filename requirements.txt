@@ -1,7 +1,8 @@
 flask[async]
 # This must match the container version in the Dockerfile
-pytest-playwright
+pytest-playwright==0.4.3
 discord-webhook
 Flask-APScheduler
 # https://sebhastian.com/python-no-module-named-yaml/
 pyyaml
+tradingview-screener

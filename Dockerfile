@@ -1,4 +1,5 @@
-FROM mcr.microsoft.com/playwright/python:v1.36.0-jammy
+# This must match version in requirements.txt
+FROM mcr.microsoft.com/playwright/python:v1.40.0-jammy
 # https://stackoverflow.com/questions/63936578/docker-how-to-make-python-3-8-as-default
 # FROM ubuntu:bionic
 
