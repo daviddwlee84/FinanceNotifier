@@ -1,64 +1,98 @@
 <html>
-    <head>
-        <title>Finance Notifier</title>
-        <meta property="og:title" content="David's Finance Notifier" />
-        <meta property="og:type" content="website" />
-        <meta property="og:description" content="David's Finance Notifier support quick access finance chart and easy get their screenshot." />
-    </head>
 
-    <body>
-        <h1>Finance Notifier</h1>
-        <p>David's Finance Notifier support quick access finance chart and easy get their screenshot.</p>
+<head>
+    <title>Finance Notifier</title>
+    <meta property="og:title" content="David's Finance Notifier" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description"
+        content="David's Finance Notifier support quick access finance chart and easy get their screenshot." />
+</head>
 
-        <p>(default value)</p>
+<body>
+    <h1>Finance Notifier</h1>
+    <p>David's Finance Notifier support quick access finance chart and easy get their screenshot.</p>
 
-        <ul>
-            <li>TradingView Advanced Chart <a href="/widget/tradingview_advanced_chart" target="_blank">Widget</a> <a href="/screenshot/tradingview_advanced_chart" target="_blank">Screenshot</a></li>
-            <li>TradingView Technical Analysis <a href="/widget/tradingview_technical_analysis" target="_blank">Widget</a> <a href="/screenshot/tradingview_technical_analysis" target="_blank">Screenshot</a></li>
-        </ul>
+    <p>(default value)</p>
 
+    <ul>
+        <li>TradingView Advanced Chart <a href="/widget/tradingview_advanced_chart" target="_blank">Widget</a> <a
+                href="/screenshot/tradingview_advanced_chart" target="_blank">Screenshot</a></li>
+        <li>TradingView Technical Analysis <a href="/widget/tradingview_technical_analysis" target="_blank">Widget</a>
+            <a href="/screenshot/tradingview_technical_analysis" target="_blank">Screenshot</a>
+        </li>
+    </ul>
 
-        <p>Test widget with GET arguments</p>
+    <p>Check scheduler</p>
 
-        <form id="Widget">
-            <label>Chart Type:</label>
-            <select name="widget" id="widget">
-                <option value="tradingview_advanced_chart">TradingView Advanced Chart</option>
-                <option value="tradingview_technical_analysis">TradingView Technical Analysis</option>
-            </select>
-            <label>Symbol:</label>
-            <input type="text" id="symbol" placeholder="Symbol" value="NASDAQ:MSFT">
-            <label>Interval:</label>
-            <input type="text" id="interval" placeholder="Interval" value="30">
-            <label>API:</label>
-            <select name="API" id="API">
-                <option value="widget">Widget</option>
-                <option value="screenshot">Screenshot</option>
-            </select>
-            <button type="button" onclick="constructURL()">Go</button>
-        </form>
+    <ul>
+        <li><a href="/scheduler" target="_blank">Scheduler</a></li>
+        <li><a href="/scheduler/jobs" target="_blank">Scheduler Jobs</a></li>
+    </ul>
 
-        <a href="/discord_webhook">Test Discord</a>
+    <a href="https://viniciuschiele.github.io/flask-apscheduler/rst/api.html">Flask APScheduler API Document</a>
+    <br>
 
-        <script>
-            function constructURL() {
-                // Get the input text value
-                const symbol = document.getElementById('symbol').value;
-                const interval = document.getElementById('interval').value;
-                const api = document.getElementById('API').value;
-                const widget = document.getElementById('widget').value;
-                // Base URL for the GET request
-                const baseURL = `/${api}/${widget}`;
+    {% for job in jobs %}
+    <button class="post-button" data-url="/scheduler/jobs/{{ job['id'] }}/run">{{ job['id'] }}</button><br><br>
+    {% endfor %}
 
-                // Combine the input text value and parameters to construct the URL
-                const constructedURL = `${baseURL}?symbol=${encodeURIComponent(symbol)}&interval=${encodeURIComponent(interval)}`;
+    <p>Test widget with GET arguments</p>
 
-                // Redirect the user to the constructed URL
-                // window.location.href = constructedURL;
+    <form id="Widget">
+        <label>Chart Type:</label>
+        <select name="widget" id="widget">
+            <option value="tradingview_advanced_chart">TradingView Advanced Chart</option>
+            <option value="tradingview_technical_analysis">TradingView Technical Analysis</option>
+        </select>
+        <label>Symbol:</label>
+        <input type="text" id="symbol" placeholder="Symbol" value="NASDAQ:MSFT">
+        <label>Interval:</label>
+        <input type="text" id="interval" placeholder="Interval" value="30">
+        <label>API:</label>
+        <select name="API" id="API">
+            <option value="widget">Widget</option>
+            <option value="screenshot">Screenshot</option>
+        </select>
+        <button type="button" onclick="constructURL()">Go</button>
+    </form>
 
-                window.open(constructedURL, '_blank');
-            }
-        </script>
+    <a href="/discord_webhook">Test Discord</a>
 
-    </body>
+    <script>
+        function constructURL() {
+            // Get the input text value
+            const symbol = document.getElementById('symbol').value;
+            const interval = document.getElementById('interval').value;
+            const api = document.getElementById('API').value;
+            const widget = document.getElementById('widget').value;
+            // Base URL for the GET request
+            const baseURL = `/${api}/${widget}`;
+
+            // Combine the input text value and parameters to construct the URL
+            const constructedURL = `${baseURL}?symbol=${encodeURIComponent(symbol)}&interval=${encodeURIComponent(interval)}`;
+
+            // Redirect the user to the constructed URL
+            // window.location.href = constructedURL;
+
+            window.open(constructedURL, '_blank');
+        }
+    </script>
+
+    <!-- For Scheduler Test -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // TODO: disable button while running. after running, print the "data" and enable the button
+        $(document).ready(function () {
+            $('.post-button').click(function () {
+                var url = $(this).data('url');
+                console.log(url)
+                $.post(url, null, function (data) {
+                    // Handle the response data as needed
+                    console.log(data);
+                });
+            });
+        });
+    </script>
+</body>
+
 </html>

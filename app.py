@@ -32,7 +32,7 @@ with open("config.yml", "r") as fp:
 
 @app.route("/", methods=["GET"])
 def home():
-    return render_template("index.html")
+    return render_template("index.html", jobs=scheduler.get_jobs())
 
 
 # ==== Schedule ====
