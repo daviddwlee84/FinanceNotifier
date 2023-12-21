@@ -37,7 +37,7 @@ docker compose up --build
 - [X] UI for changing `config.yml`
 - [ ] Make notification time configurable
 - [ ] TradingView Screener
-- [ ] ~~Deploy to Heroku [Heroku Buttons | Heroku](https://www.heroku.com/elements/buttons), [Creating a 'Deploy to Heroku' Button | Heroku Dev Center](https://devcenter.heroku.com/articles/heroku-button)~~ Since November 28, 2022, Heroku no longer offers its users a free tier or free Dynos / Netlify can only serve static website
+- [ ] ~~Deploy to Heroku [Heroku Buttons | Heroku](https://www.heroku.com/elements/buttons), [Creating a 'Deploy to Heroku' Button | Heroku Dev Center](https://devcenter.heroku.com/articles/heroku-button)~~ Since November 28, 2022, Heroku no longer offers its users a free tier or free Dynos / Netlify can only serve static website / PythonAnywhere's WSGI doesn't enable threads, which we are not able to use scheduler
 
 ## Note
 
@@ -167,3 +167,9 @@ playwright._impl._api_types.Error: Executable doesn't exist at /ms-playwright/ch
 ║ <3 Playwright Team                                            ║
 ╚═══════════════════════════════════════════════════════════════╝
 ```
+
+### RuntimeError: The scheduler seems to be running under uWSGI, but threads have been disabled. You must run uWSGI with the --enable-threads option for the scheduler to work.
+
+- [You must run uWSGI with the --enable-threads option for the scheduler to work. : Forums : PythonAnywhere](https://www.pythonanywhere.com/forums/topic/28361/#id_post_115221)
+  - [Async work in Web apps | PythonAnywhere help](https://help.pythonanywhere.com/pages/AsyncInWebApps/)
+

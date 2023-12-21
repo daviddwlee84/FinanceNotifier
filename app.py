@@ -19,12 +19,13 @@ class Config:
     # BUG (solved): KeyError: 'JSONIFY_PRETTYPRINT_REGULAR'
     JSONIFY_PRETTYPRINT_REGULAR = True
 
+curr_dir = os.path.dirname(os.path.abspath(__file__))
 
 # create app
-app = Flask("Finance Notifier")
+# https://www.pythonanywhere.com/forums/topic/29069/#id_post_91393
+app = Flask("Finance Notifier", template_folder=os.path.join(curr_dir, "templates"))
 app.config.from_object(Config())
 
-curr_dir = os.path.dirname(os.path.abspath(__file__))
 CONFIG_FILE = os.path.join(curr_dir, "config.yml")
 
 with open(CONFIG_FILE, "r") as fp:
@@ -39,6 +40,7 @@ def home():
         "index.html",
         jobs=scheduler.get_jobs(),
         tickers=utils.get_all_tradingview_tickers(),
+        timezone=os.getenv("TZ", "Asia/Taipei"),
     )
 
 
