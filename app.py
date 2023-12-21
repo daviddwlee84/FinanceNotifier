@@ -92,20 +92,35 @@ def call_discord_webhook():
     print(response, response.text)
 
 
-def start_discord_scheduler_from_config(discord_config: List[dict]):
+def start_discord_scheduler_from_config(discord_config: List[dict]) -> bool:
     """
-    TODO: error handling
+    TODO: Pop error message if failed
     """
-    scheduler.remove_all_jobs()
-    for conf in discord_config:
-        name = conf.get("name", conf["webhook"])
-        job_name = f"discord_webhook_[{name}]"
-        for i, schedule_conf in enumerate(conf.get("schedules", [])):
-            scheduler.add_job(f"{job_name}_{i}", call_discord_webhook, **schedule_conf)
+    jobs_backup = scheduler.get_jobs()
+    success = True
+    try:
+        scheduler.remove_all_jobs()
+        for conf in discord_config:
+            name = conf.get("name", conf["webhook"])
+            job_name = f"discord_webhook_[{name}]"
+            for i, schedule_conf in enumerate(conf.get("schedules", [])):
+                scheduler.add_job(
+                    f"{job_name}_{i}", call_discord_webhook, **schedule_conf
+                )
+    except Exception as e:
+        success = False
+        print("Creating jobs failed:\n", e)
+        print("Fallback to previous/default jobs")
+        for job in jobs_backup:
+            scheduler._scheduler._real_add_job(
+                job, jobstore_alias="default", replace_existing=True
+            )
     print(
         "Jobs:",
         [{"name": job.name, "trigger": job.trigger} for job in scheduler.get_jobs()],
     )
+
+    return success
 
 
 # If provide schedule in config.yml, we override the default value of the scheduler.task decorator

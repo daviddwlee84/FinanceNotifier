@@ -40,7 +40,11 @@ docker compose up --build
   - [X] TradingView chart time
   - [Timezones | Advanced Charts Documentation](https://www.tradingview.com/charting-library-docs/latest/ui_elements/timezones/)
 - [X] UI for changing `config.yml`
+  - [ ] Pop error message for invalid config
+    - [ ] Invalid scheduler config
+    - [ ] Invalid YAML syntax
 - [X] Make notification time configurable
+  - [X] Error handling for scheduler job loading
 - [ ] TradingView Screener
 - [ ] ~~Deploy to Heroku [Heroku Buttons | Heroku](https://www.heroku.com/elements/buttons), [Creating a 'Deploy to Heroku' Button | Heroku Dev Center](https://devcenter.heroku.com/articles/heroku-button)~~ Since November 28, 2022, Heroku no longer offers its users a free tier or free Dynos / Netlify can only serve static website / PythonAnywhere's WSGI doesn't enable threads, which we are not able to use scheduler
 
