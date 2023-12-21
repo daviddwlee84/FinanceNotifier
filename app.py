@@ -105,7 +105,10 @@ def tradingview_advanced_chart():
     symbol = request.args.get("symbol", "MSFT")
     interval = request.args.get("interval", "30")
     return render_template(
-        "tradingview_advanced_chart.html", symbol=symbol, interval=interval
+        "tradingview_advanced_chart.html",
+        symbol=symbol,
+        interval=interval,
+        timezone=os.getenv("TZ", "Asia/Taipei"),
     )
 
 

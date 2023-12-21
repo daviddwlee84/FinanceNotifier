@@ -37,7 +37,7 @@ docker compose up --build
 - [X] UI for changing `config.yml`
 - [ ] Make notification time configurable
 - [ ] TradingView Screener
-- [ ] Deploy to Heroku [Heroku Buttons | Heroku](https://www.heroku.com/elements/buttons), [Creating a 'Deploy to Heroku' Button | Heroku Dev Center](https://devcenter.heroku.com/articles/heroku-button)
+- [ ] ~~Deploy to Heroku [Heroku Buttons | Heroku](https://www.heroku.com/elements/buttons), [Creating a 'Deploy to Heroku' Button | Heroku Dev Center](https://devcenter.heroku.com/articles/heroku-button)~~ Since November 28, 2022, Heroku no longer offers its users a free tier or free Dynos / Netlify can only serve static website
 
 ## Note
 
@@ -156,6 +156,7 @@ Just because I am running an old one...
 
 - [Docker | Playwright Python](https://playwright.dev/python/docs/docker)
 
+```txt
 playwright._impl._api_types.Error: Executable doesn't exist at /ms-playwright/chromium-1071/chrome-linux/chrome
 ╔═══════════════════════════════════════════════════════════════╗
 ║ Looks like Playwright was just updated to 1.36.0.             ║
@@ -165,3 +166,4 @@ playwright._impl._api_types.Error: Executable doesn't exist at /ms-playwright/ch
 ║                                                               ║
 ║ <3 Playwright Team                                            ║
 ╚═══════════════════════════════════════════════════════════════╝
+```
