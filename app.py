@@ -1,3 +1,4 @@
+from typing import Dict, List
 from flask import Flask, render_template, request, Response
 from playwright.async_api import async_playwright
 from discord_webhook import DiscordWebhook
@@ -18,6 +19,7 @@ class Config:
     SCHEDULER_ENDPOINT_PREFIX = ""
     # BUG (solved): KeyError: 'JSONIFY_PRETTYPRINT_REGULAR'
     JSONIFY_PRETTYPRINT_REGULAR = True
+
 
 curr_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -46,7 +48,9 @@ def home():
 
 @app.route("/configure", methods=["GET", "POST"])
 def configure():
+    # Update global config
     global config
+
     # Save config
     if request.method == "POST":
         yaml_code = request.data.decode("utf-8")
@@ -55,8 +59,13 @@ def configure():
         with open(CONFIG_FILE, "w") as fp:
             fp.write(yaml_code)
 
+        # Update global config
         with open(CONFIG_FILE, "r") as fp:
             config = yaml.safe_load(fp)
+
+        # Update scheduler
+        if any(conf.get("schedules") for conf in config["discord"]):
+            start_discord_scheduler_from_config(config["discord"])
 
     # Open config
     else:
@@ -67,16 +76,14 @@ def configure():
 
 
 # ==== Schedule ====
-
+base_scheduler = BackgroundScheduler(timezone=os.getenv("TZ", "Asia/Taipei"))
 # initialize scheduler
-scheduler = APScheduler(
-    scheduler=BackgroundScheduler(timezone=os.getenv("TZ", "Asia/Taipei"))
-)
+scheduler = APScheduler(scheduler=base_scheduler)
 scheduler.init_app(app)
 
 
 # https://apscheduler.readthedocs.io/en/3.x/modules/triggers/cron.html#module-apscheduler.triggers.cron
-# TODO: make this configurable
+# This is the default value
 @scheduler.task("cron", id="discord_webhook", day="*", hour="09")
 def call_discord_webhook():
     # Not sure if there is more elegant way, but since the discord_webhook is async function
@@ -84,6 +91,26 @@ def call_discord_webhook():
     response = requests.get(url)
     print(response, response.text)
 
+
+def start_discord_scheduler_from_config(discord_config: List[dict]):
+    """
+    TODO: error handling
+    """
+    scheduler.remove_all_jobs()
+    for conf in discord_config:
+        name = conf.get("name", conf["webhook"])
+        job_name = f"discord_webhook_[{name}]"
+        for i, schedule_conf in enumerate(conf.get("schedules", [])):
+            scheduler.add_job(f"{job_name}_{i}", call_discord_webhook, **schedule_conf)
+    print(
+        "Jobs:",
+        [{"name": job.name, "trigger": job.trigger} for job in scheduler.get_jobs()],
+    )
+
+
+# If provide schedule in config.yml, we override the default value of the scheduler.task decorator
+if any(conf.get("schedules") for conf in config["discord"]):
+    start_discord_scheduler_from_config(config["discord"])
 
 scheduler.start()
 

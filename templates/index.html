@@ -36,9 +36,21 @@
     <a href="https://viniciuschiele.github.io/flask-apscheduler/rst/api.html">Flask APScheduler API Document</a>
     <br>
 
-    {% for job in jobs %}
-    <button class="post-button" data-url="/scheduler/jobs/{{ job['id'] }}/run">{{ job['id'] }}</button><br><br>
-    {% endfor %}
+    <!-- https://www.w3schools.com/html/html_tables.asp -->
+    <!-- https://stackoverflow.com/questions/5684144/how-to-completely-remove-borders-from-html-table -->
+    <table style="border-collapse:collapse">
+        <tbody>
+            {% for job in jobs %}
+            <tr>
+                <td>
+                    <button class="post-button" data-url="/scheduler/jobs/{{ job['id'] }}/run">{{ job['id'] }} {{
+                        job['trigger']
+                        }}</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
     <p>Test widget with GET arguments</p>
 

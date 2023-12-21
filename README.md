@@ -34,8 +34,13 @@ docker compose up --build
 - [ ] ~~Load config into `periodic/server.py`'s docker~~
 - [ ] Try add indicators, strategies, studies on the TradingView Advanced Chart
 - [ ] What if "click" the save image button on the TradingView Advanced Chart?
+- [X] Timezone alignment
+  - [X] Server time
+  - [X] Scheduler time
+  - [X] TradingView chart time
+  - [Timezones | Advanced Charts Documentation](https://www.tradingview.com/charting-library-docs/latest/ui_elements/timezones/)
 - [X] UI for changing `config.yml`
-- [ ] Make notification time configurable
+- [X] Make notification time configurable
 - [ ] TradingView Screener
 - [ ] ~~Deploy to Heroku [Heroku Buttons | Heroku](https://www.heroku.com/elements/buttons), [Creating a 'Deploy to Heroku' Button | Heroku Dev Center](https://devcenter.heroku.com/articles/heroku-button)~~ Since November 28, 2022, Heroku no longer offers its users a free tier or free Dynos / Netlify can only serve static website / PythonAnywhere's WSGI doesn't enable threads, which we are not able to use scheduler
 
