@@ -10,6 +10,7 @@ from flask_apscheduler import APScheduler
 from apscheduler.schedulers.background import BackgroundScheduler
 import requests
 import utils
+from functools import partial
 
 
 # set configuration values
@@ -84,10 +85,17 @@ scheduler.init_app(app)
 
 # https://apscheduler.readthedocs.io/en/3.x/modules/triggers/cron.html#module-apscheduler.triggers.cron
 # This is the default value
-@scheduler.task("cron", id="discord_webhook", day="*", hour="09")
+# @scheduler.task("cron", id="discord_webhook", day="*", hour="09")
 def call_discord_webhook():
     # Not sure if there is more elegant way, but since the discord_webhook is async function
     url = f'http://localhost:{os.getenv("PORT") if os.getenv("PORT") else 5000}/discord_webhook'
+    response = requests.get(url)
+    print(response, response.text)
+
+
+def call_discord_webhook_by_name(name: str):
+    # Not sure if there is more elegant way, but since the discord_webhook is async function
+    url = f'http://localhost:{os.getenv("PORT") if os.getenv("PORT") else 5000}/discord_webhook/{name}'
     response = requests.get(url)
     print(response, response.text)
 
@@ -105,7 +113,9 @@ def start_discord_scheduler_from_config(discord_config: List[dict]) -> bool:
             job_name = f"discord_webhook_[{name}]"
             for i, schedule_conf in enumerate(conf.get("schedules", [])):
                 scheduler.add_job(
-                    f"{job_name}_{i}", call_discord_webhook, **schedule_conf
+                    f"{job_name}_{i}",
+                    partial(call_discord_webhook_by_name, name=name),
+                    **schedule_conf,
                 )
     except Exception as e:
         success = False
@@ -216,6 +226,32 @@ async def discord_webhook():
     # Must return something...
     # TypeError: The view function for 'discord_webhook' did not return a valid response. The function either returned None or ended without a return statement.
     return "Success"
+
+
+@app.route("/discord_webhook/<name>", methods=["GET"])
+async def discord_webhook_by_name(name: str):
+    # TODO: don't load setting here, should pass parameter here
+    # but widget and symbol config is complex, we need a mapping
+    executed = False
+    for setting in config["discord"]:
+        if name != setting.get("name", setting["webhook"]):
+            continue
+        executed = True
+        print(setting)
+        for symbol in setting["symbols"]:
+            webhook = DiscordWebhook(
+                url=setting["webhook"], content=f"📨 Quick Summary of **{symbol}**"
+            )
+            images = await asyncio.gather(
+                *[get_screenshot(chart, symbol=symbol) for chart in setting["widgets"]]
+            )
+            for i, image in enumerate(images):
+                # webhook.add_file(file=image, filename=f"{chart}_{symbol}.png")
+                webhook.add_file(file=image, filename=f"{symbol}_{i}.png")
+            webhook.execute()
+    # Must return something...
+    # TypeError: The view function for 'discord_webhook' did not return a valid response. The function either returned None or ended without a return statement.
+    return "Success" if executed else f'Invalid webhook name "{name}"'
 
 
 # Run the Flask app

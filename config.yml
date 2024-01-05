@@ -1,5 +1,6 @@
 discord:
-  - webhook: https://discord.com/api/webhooks/<your_id>/<your_token>
+  - webhook: https://discord.com/api/webhooks/1130850739695132745/HA6OOYkeMPIxjAegzm0ftURaW_34t7dVGOFyC1dFveUCQ0ren6ciIeJEDSfW0mHL8ry8
+    # Name is optional
     name: Default Discord
     widgets:
       - tradingview_advanced_chart
@@ -11,6 +12,7 @@ discord:
       - BINANCE:BTCUSD
       - NASDAQ:NDX
       - AMEX:KWEB
+    # Schedules is optional (default will be 9:00 a.m.)
     # Consider using single line crontab syntax for each schedule for simplicity
     # Syntax can be found at: https://apscheduler.readthedocs.io/en/3.x/modules/triggers/cron.html?highlight=decorator
     schedules:
